@@ -1,0 +1,47 @@
+@{ ViewData["Title"] = "Login and Registration"; }
+@model theWall.Models.User
+<h1>Login and Registration</h1>
+<div>
+    <h2>Login</h2>
+    <form action="login" method="POST">
+        <label for="email">Email: </label>
+        <input type="email" placeholder="Email" name='email'>
+        <br>
+        <label for="password">Password: </label>
+        <input type="password" placeholder="password" name='password'>
+        <br>
+        <input type="submit" value='Login'>
+    </form>
+</div>
+
+<div id='Registration'>
+    <h2>Register</h2>
+    <form asp-controller="Login" asp-action="Register" method="post">
+        <span asp-validation-for="first_name"></span>
+        <label asp-for="first_name"></label>
+        <input asp-for="first_name" placeholder="First Name">
+        <br>
+        <label asp-for="last_name"></label>
+        <input asp-for="last_name" placeholder="Last Name">
+        <br>
+        <label asp-for="email"></label>
+        <input asp-for="email" placeholder="Email">
+        <br>
+        <label asp-for="password"></label>
+        <input asp-for="password" placeholder="Password">
+        <br>
+        <label asp-for="confirm"></label>
+        <input asp-for="confirm" placeholder="Password Confirmation">
+        <br>
+        <input type="submit" value="Register new user">
+    </form>
+</div>
+
+<div class='errors'>
+    @{
+        foreach(var error in ViewBag.errors)
+        {
+            <p>@error</p>
+        }
+    }
+</div>

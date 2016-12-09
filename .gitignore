@@ -1,0 +1,8 @@
+bin/
+obj/
+.bowerrc
+.vscode/
+SQL/
+web.config
+global.json
+appsettings.json

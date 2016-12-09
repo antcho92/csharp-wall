@@ -1,0 +1,60 @@
+@{ ViewData["Title"] = "Dashboard"; }
+@model theWall.Models.Message
+<h2>Messages</h2>
+<form asp-controller="Message" asp-action="Add" method='POST'>
+    <label asp-for="content">Post a message: </label>
+    <br>
+    <textarea asp-for="content" cols="40" rows="8"></textarea>
+    <br>
+    <input type="submit" value="Post message!">
+</form>
+<div class='errors'>
+    @{
+        foreach(var error in ViewBag.errors)
+        {
+            //If there are any errors for a field...
+            if(@error.Errors.Count > 0)
+            {
+                // We show the first error for that field
+                <p>@error.Errors[0].ErrorMessage</p>
+            }
+        }
+    }
+</div>
+<div class='messages'>
+    @{
+        foreach(var message in ViewBag.Messages)
+        {
+            <ul class='message'>
+                <li>@message.user.first_name @message.user.last_name - @message.created_at</li>
+                @if (@message.user.id == ViewBag.UserId)
+                {
+                    <form action="message/delete/@message.id" method="post">
+                        <input type="submit" value='Delete'>
+                    </form>
+                }
+                <ul>
+                    <li>@message.content</li>
+                    <ul class='comments'>
+                        @{
+                            foreach(var comment in ViewBag.Comments)
+                            {
+                                @if (comment.message_id == message.id)
+                                {
+                                    <ul class='comment'>
+                                        <li>@comment.user.first_name @comment.user.last_name - @comment.created_at</li>
+                                        <ul>
+                                            <li>@comment.content</li>
+                                        </ul>
+                                    </ul>
+                                }
+                            }
+                        }
+                    </ul>
+                </ul>
+                @Html.Partial("Comment", null, new ViewDataDictionary(ViewData) {{"MessageId", @message.id}})                
+            </ul>
+        }
+    }
+</div>
+
